@@ -2,7 +2,7 @@ from math import ceil
 import pandas as pd
 import os
 
-def batch_save_to_csv(path, df: pd.DataFrame, debug=False):
+def batch_save_to_csv(path: str, df: pd.DataFrame, debug: bool=False) -> None:
     frags = int(df.memory_usage(deep=True).sum() / (1024 ** 2) / 100) + 1
 
     if frags == 1:
@@ -24,7 +24,7 @@ def batch_save_to_csv(path, df: pd.DataFrame, debug=False):
         df_cut = df.iloc[start:end]
         df_cut.to_csv(f"{path}_{i}.csv")
 
-def batch_load_from_csv(path, debug=False) -> pd.DataFrame:
+def batch_load_from_csv(path: str , debug: bool = False) -> pd.DataFrame:
     dir = path[:path.rfind("/")+1]
     
     if debug:
