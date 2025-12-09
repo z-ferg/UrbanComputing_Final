@@ -1,3 +1,4 @@
 __pycache__
 .DS_Store
 cleaned_property_valuation.csv
+augmented_properties_with_distances.csv
