@@ -24,17 +24,17 @@ def batch_save_to_csv(path: str, df: pd.DataFrame, debug: bool=False) -> None:
         df_cut = df.iloc[start:end]
         df_cut.to_csv(f"{path}_{i}.csv")
 
-def batch_load_from_csv(path: str , debug: bool = False) -> pd.DataFrame:
+def batch_load_from_csv(path: str , num_files: int = None, debug: bool = False) -> pd.DataFrame:
     dir = path[:path.rfind("/")+1]
     
     if debug:
         print(f"Entering {dir}")
 
-    num_files = len(os.listdir(dir))
+    num_files = num_files if num_files else len(os.listdir(dir))
     dfs = []
 
     for i in range(num_files):
-        fp = f"{path}_{i}.csv"
+        fp = f"{path}_{i+1}.csv"
         if debug:
             print(f"Loading from {fp}")
         dfs.append(pd.read_csv(fp))
