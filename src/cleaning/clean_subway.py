@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('subway_raw.csv')
+df = pd.read_csv('../../data/raw_data/sub/subway_raw.csv')
 
 # Create the combined description
 df['Entrance Description'] = (
@@ -39,7 +39,7 @@ cleaned_df = cleaned_df.drop_duplicates(subset=['Entrance Latitude', 'Entrance L
 cleaned_df.reset_index(drop=True, inplace=True)
 
 # Save the cleaned CSV
-cleaned_df.to_csv('cleaned_subway_entrances.csv', index=False)
+cleaned_df.to_csv('../../data/clean_data/sub/cleaned_subway_entrances.csv', index=False)
 
 # Preview
 print("Cleaned shape:", cleaned_df.shape)
