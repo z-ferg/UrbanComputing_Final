@@ -42,7 +42,7 @@ def combine_transit_df(sub_df: pd.DataFrame, bus_df: pd.DataFrame, debug=False):
     return ret
 
 # Claude Generated
-def find_nearest_transit_for_properties(properties_df, transit_df, transit_type):
+def find_nearest_transit_for_properties(properties_df, transit_df, transit_type, k=1):
     # Convert coordinates to radians for haversine
     transit_coords = np.radians(transit_df[['Latitude', 'Longitude']].values)
     property_coords = np.radians(properties_df[['Latitude', 'Longitude']].values)
@@ -51,17 +51,17 @@ def find_nearest_transit_for_properties(properties_df, transit_df, transit_type)
     tree = BallTree(transit_coords, metric='haversine')
     
     # Query for nearest transit stop for each property
-    distances, indices = tree.query(property_coords, k=1)
+    distances, indices = tree.query(property_coords, k=k)
     
     # Convert distances to km (distances are in radians)
-    distances_km = distances.flatten() * 6371
+    distances_km = distances * 6371
     
     # Get the nearest transit stop names
     nearest_transit_names = transit_df.iloc[indices.flatten()]['Name'].values
     
     # Add results to properties dataframe
     properties_df = properties_df.copy()
-    properties_df[f'{transit_type}_close'] = nearest_transit_names
-    properties_df[f'{transit_type}_dist'] = distances_km
+    properties_df[f'{transit_type}_{k}_close'] = nearest_transit_names
+    properties_df[f'{transit_type}_{k}_dist'] = distances_km[k-1]
     
     return properties_df
